@@ -45,7 +45,7 @@ class NewsList extends StatelessWidget {
           var newsList = snapshot.data?.newsList;
           return ListView.separated(
             separatorBuilder: (context, index) => SizedBox(
-              height: 20,
+              height: 30,
             ),
             itemCount: newsList?.length ?? 0,
             itemBuilder: (context, index) {

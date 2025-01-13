@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news/api/model/news_response/News.dart';
+import 'package:news/utils/Date_Format.dart';
 
 class NewsWidget extends StatelessWidget {
   News news;
@@ -11,11 +12,14 @@ class NewsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = DateTime.parse(news.publishedAt ?? "");
+
+    int timeDate = date.millisecondsSinceEpoch;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 26),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 10,
+        spacing: 8,
         children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(5),
@@ -38,7 +42,7 @@ class NewsWidget extends StatelessWidget {
                     color: Color(0xff42505C))),
           ),
           Text(
-            news.publishedAt ?? "",
+            "${formatMessageDate(timeDate)}",
             textAlign: TextAlign.end,
             style: GoogleFonts.inter(
                 textStyle: TextStyle(

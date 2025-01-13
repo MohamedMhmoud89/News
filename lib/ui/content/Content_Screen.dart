@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news/api/model/news_response/News.dart';
+import 'package:news/utils/Date_Format.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContentScreen extends StatelessWidget {
@@ -11,6 +12,10 @@ class ContentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = DateTime.parse(news?.publishedAt ?? "");
+
+    int timeDate = date.millisecondsSinceEpoch;
+
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -39,7 +44,7 @@ class ContentScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        news?.title ?? "",
+                        news?.source?.id ?? "",
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -55,7 +60,7 @@ class ContentScreen extends StatelessWidget {
                                 color: Color(0xff42505C))),
                       ),
                       Text(
-                        news?.publishedAt ?? "",
+                        "${formatMessageDate(timeDate)}",
                         textAlign: TextAlign.end,
                         style: GoogleFonts.inter(
                             textStyle: TextStyle(
@@ -64,6 +69,7 @@ class ContentScreen extends StatelessWidget {
                                 fontSize: 13)),
                       ),
                       Card(
+                        shadowColor: Colors.transparent,
                         color: Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
