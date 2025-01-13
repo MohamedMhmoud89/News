@@ -13,6 +13,7 @@ class CategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Container(
       width: 148,
       height: 171,
@@ -32,13 +33,13 @@ class CategoryWidget extends StatelessWidget {
           Image.asset(
             "assets/images/${category.imageName}.png",
             width: 132,
-            height: 116,
+            height: height * 0.1,
           ),
           Text(
             category.title,
             style: GoogleFonts.exo(
                 textStyle: TextStyle(
-                    fontSize: 22,
+                    fontSize: height * 0.02,
                     fontWeight: FontWeight.w400,
                     color: Colors.white)),
           )
