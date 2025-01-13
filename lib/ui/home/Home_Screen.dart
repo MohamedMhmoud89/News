@@ -7,19 +7,34 @@ import 'package:news/ui/widget/Category_Widget.dart';
 class HomeScreen extends StatelessWidget {
   static const String routeName = 'home';
 
-  List<CategoryModel> categoris = [
-    CategoryModel(color: Color(0xffC91C22), title: 'Sports', imageName: 'ball'),
+  List<CategoryModel> categories = [
     CategoryModel(
-        color: Color(0xff003E90), title: 'Politics', imageName: 'Politics'),
+        id: 'sports',
+        color: Color(0xffC91C22),
+        title: 'Sports',
+        imageName: 'ball'),
     CategoryModel(
-        color: Color(0xffED1E79), title: 'Health', imageName: 'health'),
+        id: 'technology',
+        color: Color(0xff003E90),
+        title: 'technology',
+        imageName: 'Politics'),
     CategoryModel(
-        color: Color(0xffCF7E48), title: 'Business', imageName: 'bussines'),
+        id: 'health',
+        color: Color(0xffED1E79),
+        title: 'Health',
+        imageName: 'health'),
     CategoryModel(
+        id: 'business',
+        color: Color(0xffCF7E48),
+        title: 'Business',
+        imageName: 'bussines'),
+    CategoryModel(
+        id: 'entertainment',
         color: Color(0xff4882CF),
-        title: 'Environment',
+        title: 'Entertainment',
         imageName: 'environment'),
     CategoryModel(
+        id: 'science',
         color: Color(0xffF2D352), title: 'Science', imageName: 'science'),
   ];
 
@@ -56,17 +71,24 @@ of interest''',
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 30,
-                      crossAxisSpacing: 20),
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 10),
                   itemBuilder: (context, index) {
                     return GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, NewsScreen.routeName);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => NewsScreen(
+                                titleBar: categories[index].title,
+                                category: categories[index].id,
+                              ),
+                            ),
+                          );
                         },
                         child: CategoryWidget(
-                            category: categoris[index], index: index));
+                            category: categories[index], index: index));
                   },
-                  itemCount: categoris.length,
+                  itemCount: categories.length,
                 ),
               )
             ],
