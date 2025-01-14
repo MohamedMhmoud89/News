@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news/api/model/news_response/News.dart';
@@ -22,8 +23,16 @@ class NewsWidget extends StatelessWidget {
         spacing: 8,
         children: [
           ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Image.network(news.urlToImage ?? "")),
+            borderRadius: BorderRadius.circular(5),
+            child: CachedNetworkImage(
+              imageUrl: news.urlToImage ?? "",
+              placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                color: Color(0xff39A552),
+              )),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
           Text(
             news.title ?? "",
             textAlign: TextAlign.start,
