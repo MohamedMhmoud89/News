@@ -7,8 +7,10 @@ class ArticleScreen extends StatefulWidget {
   @override
   State<ArticleScreen> createState() => _ArticleScreenState();
   List<Source>? sources;
+  String? query;
+  int? page;
 
-  ArticleScreen({this.sources});
+  ArticleScreen({this.sources, this.query, this.page});
 }
 
 class _ArticleScreenState extends State<ArticleScreen> {
@@ -40,6 +42,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
           ),
           Expanded(
               child: NewsList(
+            page: widget.page,
+            query: widget.query,
             source: widget.sources?[selectedIndex],
           ))
         ],

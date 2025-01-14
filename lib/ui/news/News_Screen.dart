@@ -17,6 +17,8 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   bool isSearch = false;
+  var searchController = TextEditingController();
+  int? page = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +31,13 @@ class _NewsScreenState extends State<NewsScreen> {
       child: Scaffold(
         appBar: AppBar(
           actions: isSearch
-              ? []
+              ? null
               : [
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: IconButton(
                       onPressed: () {
+                        page = null;
                         isSearch = true;
                         setState(() {});
                       },
@@ -54,20 +57,31 @@ class _NewsScreenState extends State<NewsScreen> {
                       border: Border.all(color: Color(0xff39A552), width: 2)),
                   child: TextField(
                     cursorColor: Color(0xff39A552),
+                    controller: searchController,
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (value) {
+                      setState(() {});
+                    },
                     decoration: InputDecoration(
+                        hintText: 'Searching...',
+                        hintStyle: TextStyle(color: Color(0x4739a552)),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         suffixIcon: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {});
+                            },
                             icon: Icon(
                               Icons.search_rounded,
                               color: Color(0xff39A552),
                             )),
                         prefixIcon: IconButton(
                             onPressed: () {
+                              page = 1;
+                              searchController.clear();
                               isSearch = false;
                               setState(() {});
                             },
@@ -135,6 +149,8 @@ class _NewsScreenState extends State<NewsScreen> {
                 );
               }
               return ArticleScreen(
+                page: page,
+                query: searchController.text,
                 sources: response?.sources,
               );
             },
@@ -144,3 +160,98 @@ class _NewsScreenState extends State<NewsScreen> {
     );
   }
 }
+
+// class NewsSearchDelegate extends SearchDelegate{
+//   @override
+//   List<Widget>? buildActions(BuildContext context) {
+//     return [
+//       IconButton(onPressed: (){query = "";}, icon: Icon(Icons.clear , color: Color(0xff39A552),),)
+//     ];
+//   }
+//
+//   @override
+//   Widget? buildLeading(BuildContext context) {
+//     return
+//       IconButton(onPressed: (){
+//         Navigator.pop(context);
+//       }, icon: Icon(Icons.arrow_back , color: Color(0xff39A552),),);
+//   }
+//
+//   @override
+//   Widget buildResults(BuildContext context) {
+//     return Container(
+//       padding: EdgeInsets.symmetric(vertical:20 ),
+//       decoration: BoxDecoration(
+//           color: Colors.white,
+//           image: DecorationImage(
+//               image: AssetImage('assets/images/pattern.png'),
+//               fit: BoxFit.fill)),
+//       child: FutureBuilder<NewsResponse>(
+//         future: ApiManegar.getNews(q: query),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return Center(
+//               child: CircularProgressIndicator(color: Color(0xff39A552)),
+//             );
+//           }
+//           if (snapshot.hasError) {
+//             return Center(
+//               child: Column(
+//                 children: [
+//                   Text(snapshot.error.toString()),
+//                   ElevatedButton(onPressed: () {}, child: Text('Try again'))
+//                 ],
+//               ),
+//             );
+//           }
+//           var response = snapshot.data;
+//           if (response?.status == 'error') {
+//             return Center(
+//               child: Column(
+//                 children: [
+//                   Text(response?.message ?? ""),
+//                   ElevatedButton(onPressed: () {}, child: Text('Try again'))
+//                 ],
+//               ),
+//             );
+//           }
+//           var newsList = snapshot.data?.newsList;
+//           return ListView.separated(
+//             separatorBuilder: (context, index) => SizedBox(
+//               height: 30,
+//             ),
+//             itemCount: newsList?.length ?? 0,
+//             itemBuilder: (context, index) {
+//               return GestureDetector(
+//                   onTap: () {
+//                     Navigator.of(context).push(MaterialPageRoute(
+//                         builder: (_) => ContentScreen(
+//                           news: newsList[index],
+//                         )));
+//                   },
+//                   child: NewsWidget(
+//                     news: newsList![index],
+//                   ));
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget buildSuggestions(BuildContext context) {
+//     // TODO: implement buildSuggestions
+//     return Container(
+//       decoration: BoxDecoration(
+//           color: Colors.white,
+//           image: DecorationImage(
+//               image: AssetImage('assets/images/pattern.png'),
+//               fit: BoxFit.fill)),
+//       child: Center(
+//         child: Text('Suggestions'),
+//       ),
+//     );
+//   }
+//
+// }

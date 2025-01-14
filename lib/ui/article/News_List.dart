@@ -5,20 +5,49 @@ import 'package:news/api/model/sources_response/Source.dart';
 import 'package:news/ui/content/Content_Screen.dart';
 import 'package:news/ui/widget/News_Widget.dart';
 
-class NewsList extends StatelessWidget {
+class NewsList extends StatefulWidget {
   Source? source;
+  String? query;
+  int? page;
 
-  NewsList({this.source});
+  NewsList({this.source, this.query, required this.page});
+
+  @override
+  State<NewsList> createState() => _NewsListState();
+}
+
+class _NewsListState extends State<NewsList> {
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(
+      () {
+        if (scrollController.position.atEdge) {
+          if (scrollController.position.pixels != 0) {
+            if (widget.page != null) {
+              widget.page = (widget.page ?? 0) + 1;
+              setState(() {});
+            }
+          }
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder<NewsResponse>(
-        future: ApiManegar.getNews(source?.id ?? ""),
+        future: ApiManegar.getNews(
+            source: widget.source?.id ?? "",
+            q: widget.query,
+            page: widget.page),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Color(0xff39A552)),
             );
           }
           if (snapshot.hasError) {
@@ -44,6 +73,7 @@ class NewsList extends StatelessWidget {
           }
           var newsList = snapshot.data?.newsList;
           return ListView.separated(
+            controller: scrollController,
             separatorBuilder: (context, index) => SizedBox(
               height: 30,
             ),

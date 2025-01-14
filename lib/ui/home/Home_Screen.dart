@@ -35,7 +35,9 @@ class HomeScreen extends StatelessWidget {
         imageName: 'environment'),
     CategoryModel(
         id: 'science',
-        color: Color(0xffF2D352), title: 'Science', imageName: 'science'),
+        color: Color(0xffF2D352),
+        title: 'Science',
+        imageName: 'science'),
   ];
 
   @override

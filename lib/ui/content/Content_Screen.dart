@@ -46,27 +46,31 @@ class ContentScreen extends StatelessWidget {
                       Text(
                         news?.source?.id ?? "",
                         style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff79828B),
-                                fontSize: 10)),
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff79828B),
+                              fontSize: 10),
+                        ),
                       ),
                       Text(
                         news?.description ?? "",
                         style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: Color(0xff42505C))),
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            color: Color(0xff42505C),
+                          ),
+                        ),
                       ),
                       Text(
                         "${formatMessageDate(timeDate)}",
                         textAlign: TextAlign.end,
                         style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xffA3A3A3),
-                                fontSize: 13)),
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xffA3A3A3),
+                              fontSize: 13),
+                        ),
                       ),
                       Card(
                         shadowColor: Colors.transparent,
